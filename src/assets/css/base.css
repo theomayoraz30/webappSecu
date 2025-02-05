@@ -1,3 +1,7 @@
+* {
+  font-family: 'Poppins';
+}
+
 .app-container {
   display: flex;
   flex-direction: column;

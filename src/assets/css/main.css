@@ -1,0 +1,60 @@
+@import './base.css';
+
+.col-illustration {
+    background-color: #f1f0ea;
+    border-radius: 30px 30px 30px 30px;
+    margin-top: 1rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+span.input-group-text {
+  background: #f1f0ea;
+  border-right: none;
+  border-radius: 2rem;
+}
+
+input.form-control {
+  background-color: #f1f0ea !important;
+  border-left: none;
+  box-shadow: none !important;
+  outline: none !important;
+  border-radius: 2rem;
+  font-size: 15px;
+}
+
+input.form-control:focus,
+input.form-control:hover,
+input.form-control:active,
+input.form-control:focus-visible {
+
+  background-color: #f1f0ea !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+.signup-link {
+    color: #212529;
+    font-weight: 600;
+}
+
+.signup-link:hover {
+  color: #cf9ef5;
+  transition: 0.2s ease-in-out;
+}
+
+.connexion-btn {
+  border-radius: 2rem;
+  font-size: 15px;
+  background-color: #cf9ef5;
+  border-color: #cf9ef5;
+}
+
+.connexion-btn:hover,
+.connexion-btn:active,
+.connexion-btn:focus,
+.connexion-btn:focus-visible
+ {
+  background-color: #9c76b9 !important;
+  border-color: #9c76b9 !important;
+}
