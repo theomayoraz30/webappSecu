@@ -7,16 +7,13 @@ import axios from 'axios';
 import { getToken } from '@/scripts/utils/auth';
 import { API_BASE_URL, REQUEST_AUTH_TOKEN_NAME } from '@/scripts/utils/constants';
 
-// Routes
-const ROUTE_USERS = '/users';
-
 /**
  * Liste des routes de l'API
  */
 export const API_ROUTES = {
     USERS: {
         name: 'users',
-        route: ROUTE_USERS,
+        route: '/users',
     },
 };
 
@@ -25,7 +22,7 @@ export const API_REQUEST = axios.create({
     baseURL: API_BASE_URL,
     withCredentials: true,
     headers: {
-        Accept: 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json;charset=UTF-8',
     },
 });
