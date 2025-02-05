@@ -21,4 +21,8 @@ export default defineConfigWithVueTs(
   pluginVue.configs['flat/essential'],
   vueTsConfigs.recommended,
   skipFormatting,
+
+  rules: {
+    'indent': ['error', 4, { 'SwitchCase': 1 }],
+  }
 )
