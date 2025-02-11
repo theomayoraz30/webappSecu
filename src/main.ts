@@ -4,6 +4,9 @@ import { createPinia } from 'pinia';
 // Autres
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
+import 'boxicons/css/boxicons.min.css';
+
+// Custom
 import '@/assets/css/main.css';
 
 import App from './App.vue';
