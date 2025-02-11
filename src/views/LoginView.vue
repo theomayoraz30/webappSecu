@@ -10,7 +10,7 @@
 
     <!-- Left Side (Illustration) -->
     <div class="col-lg-6 d-none d-md-flex align-items-center justify-content-center col-illustration">
-      <img src="../assets/img/illustration_login.png" alt="Illustration" class="img-fluid">
+      <img src="@/assets/img/illustration_login.png" alt="Illustration" class="img-fluid">
     </div>
 
     <!-- Right Side (Login Form) -->
