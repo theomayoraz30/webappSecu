@@ -8,9 +8,25 @@ import { getToken } from '@/scripts/utils/auth';
 import { API_BASE_URL, REQUEST_AUTH_TOKEN_NAME } from '@/scripts/utils/constants';
 
 /**
+ * Route de l'api
+ */
+interface ApiRoute {
+    name: string,
+    route: string,
+}
+
+/**
  * Liste des routes de l'API
  */
-export const API_ROUTES = {
+export const API_ROUTES: Record<string, ApiRoute> = {
+    LOGIN: {
+        name: 'login',
+        route: '/login',
+    },
+    LOGOUT: {
+        name: 'logout',
+        route: '/logout',
+    },
     USERS: {
         name: 'users',
         route: '/users',

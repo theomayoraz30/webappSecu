@@ -1,26 +1,25 @@
-/**
- * Liste des différents routes du projet
- */
-export enum Routes {
-    HOME,
-    LOGIN,
-    DASHBOARD,
-}
+import type { RouteRecordRaw } from "vue-router";
+
+import LoginView from '@/views/LoginView.vue';
+import DashboardView from '@/views/DashboardView.vue';
 
 /**
  * Liste des routes du programme
  */
-export const ROUTES: Record<Routes, { path: string, name: string }> = {
-    [Routes.HOME]: {
+export const WEB_ROUTES: Record<string, RouteRecordRaw> = {
+    HOME: {
         path: '/',
         name: 'home',
+        redirect: '/login',
     },
-    [Routes.LOGIN]: {
+    LOGIN: {
         path: '/login',
         name: 'login',
+        component: LoginView,
     },
-    [Routes.DASHBOARD]: {
+    DASHBOARD: {
         path: '/dashboard',
         name: 'dashboard',
+        component: DashboardView,
     },
 };
