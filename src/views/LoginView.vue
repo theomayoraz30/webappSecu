@@ -25,7 +25,7 @@ const alert = ref({
     message: '',
 });
 
-let waiting = false;
+const waiting = ref(false);
 
 /**
  * Affiche défaut
@@ -58,8 +58,8 @@ function showErrorAlert(message: string) {
 };
 
 function login() {
-    if (waiting) return;
-    waiting = true;
+    if (waiting.value) return;
+    waiting.value = true;
 
     showDefaultAlert();
 
@@ -68,31 +68,36 @@ function login() {
         password: form.value.password,
     };
 
-    API_REQUEST.post(API_ROUTES.LOGIN.route, params)
-        .then((response) => {
-            // Check si il manque des données
-            const token = response.data?.data?.token ?? null
-            if (token == null) return showErrorAlert(MESSAGES_ERROR.API_DEFAULT)
+    function send() {
+        API_REQUEST.post(API_ROUTES.LOGIN.route, params)
+            .then((response) => {
+                // Check si il manque des données
+                const token = response.data?.data?.token ?? null;
+                if (token == null) return showErrorAlert(MESSAGES_ERROR.API_DEFAULT);
 
-            // Enregistre le token dans les cookies
-            setToken(token);
+                // Enregistre le token dans les cookies
+                setToken(token);
 
-            // Affichage le succès
-            showSuccessAlert(MESSAGES_TEXT.SUCCESS_CONNECTED);
+                // Affichage le succès
+                showSuccessAlert(MESSAGES_TEXT.SUCCESS_CONNECTED);
 
-            // Redirection vers la page 'home'
-            router.push({ path: WEB_ROUTES.HOME.path });
-        })
-        .catch((error) => {
-            // Récupére le message d'erreur sinon on prends celui par défaut
-            const message = error.response?.data?.message || MESSAGES_ERROR.API_DEFAULT
+                // Redirection vers la page 'home'
+                router.push({ path: WEB_ROUTES.HOME.path });
+            })
+            .catch((error) => {
+                console.log(error.response);
+                // Récupére le message d'erreur sinon on prends celui par défaut
+                const message = error.response?.data?.message || MESSAGES_ERROR.API_DEFAULT;
 
-            // Affichage de l'erreur
-            showErrorAlert(message)
-        })
-        .finally(() => {
-            waiting = false;
-        });
+                // Affichage de l'erreur
+                showErrorAlert(message);
+            })
+            .finally(() => {
+                waiting.value = false;
+            });
+    }
+
+    setTimeout(send, 1500);
 }
 </script>
 
@@ -111,23 +116,7 @@ function login() {
 
 
         <!-- Right Side (Login Form) -->
-        <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center flex-column">
-            <div class="signin-container flex-column">
-                <div v-if="alert.status === RequestStatus.SUCCESS" class="alert alert-success d-flex align-items-center" role="alert">
-                    <i class='bx bx-check bi bi-exclamation-triangle-fill flex-shrink-0 mx-2'></i>
-                    <div>
-                        {{ alert.message }}
-                    </div>
-                </div>
-
-                <div v-if="alert.status === RequestStatus.ERROR" class="alert alert-danger d-flex align-items-center" role="alert">
-                    <i class='bx bx-error bi bi-exclamation-triangle-fill flex-shrink-0 mx-2'></i>
-                    <div>
-                        {{ alert.message }}
-                    </div>
-                </div>
-            </div>
-
+        <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center flex-column gap-3">
             <div class="signin-container">
                 <h2 class="text-left mb-4">Sign in</h2>
 
@@ -142,12 +131,25 @@ function login() {
                         <input type="password" name="password" class="form-control" placeholder="password"
                             v-model="form.password" required />
                     </div>
-                    <button @click="login" class="btn btn-primary w-100 btn-lg connexion-btn">
-                        connexion
+                    <button @click="login" id="login-btn" class="btn btn-primary w-100 btn-lg" :class="(waiting) ? 'loading' : null">
+                        <span>Connexion</span>
                     </button>
+                </div>
+            </div>
 
+            <div class="signin-container">
+                <div v-if="alert.status === RequestStatus.SUCCESS" class="alert alert-success d-flex align-items-center" role="alert">
+                    <i class='bx bx-check bi bi-exclamation-triangle-fill flex-shrink-0 mx-2'></i>
+                    <div>
+                        {{ alert.message }}
+                    </div>
+                </div>
 
-
+                <div v-if="alert.status === RequestStatus.ERROR" class="alert alert-danger d-flex align-items-center" role="alert">
+                    <i class='bx bx-error bi bi-exclamation-triangle-fill flex-shrink-0 mx-2'></i>
+                    <div>
+                        {{ alert.message }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -181,39 +183,73 @@ input.form-control {
     outline: none !important;
     border-radius: 2rem;
     font-size: 15px;
-}
 
-input.form-control:focus,
-input.form-control:hover,
-input.form-control:active,
-input.form-control:focus-visible {
-    background-color: #f1f0ea !important;
-    box-shadow: none !important;
-    outline: none !important;
+    &:focus,
+    &:hover,
+    &:active,
+    &:focus-visible {
+        background-color: #f1f0ea !important;
+        box-shadow: none !important;
+        outline: none !important;
+    }
 }
 
 .signup-link {
     color: #212529;
     font-weight: 600;
+
+    &:hover {
+        color: #cf9ef5;
+        transition: 0.2s ease-in-out;
+    }
 }
 
-.signup-link:hover {
-    color: #cf9ef5;
-    transition: 0.2s ease-in-out;
-}
+#login-btn {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 
-.connexion-btn {
     border-radius: 2rem;
     font-size: 15px;
     background-color: #cf9ef5;
     border-color: #cf9ef5;
-}
 
-.connexion-btn:hover,
-.connexion-btn:active,
-.connexion-btn:focus,
-.connexion-btn:focus-visible {
-    background-color: #9c76b9 !important;
-    border-color: #9c76b9 !important;
+    &:hover,
+    &:active,
+    &:focus,
+    &:focus-visible {
+        background-color: #9c76b9 !important;
+        border-color: #9c76b9 !important;
+    }
+
+    &.loading {
+        > span {
+            visibility: hidden;
+        }
+    }
+
+    &::after {
+        position: absolute;
+        content: "";
+
+        height: 16px;
+        width: 16px;
+
+        border-radius: 50%;
+        border: 3px solid transparent;
+        border-top-color: white;
+
+        animation: loading 1s infinite;
+
+        @keyframes loading {
+            to { transform: rotateZ(360deg); }
+        }
+    }
+
+    &:not(.loading)::after {
+        display: none;
+    }
 }
 </style>
