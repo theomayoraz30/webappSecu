@@ -22,7 +22,9 @@ export default defineConfigWithVueTs(
   vueTsConfigs.recommended,
   skipFormatting,
 
-  rules: {
-    'indent': ['error', 4, { 'SwitchCase': 1 }],
+  {
+    rules: {
+      'indent': ['error', 4, { 'SwitchCase': 1 }],
+    }
   }
 )
