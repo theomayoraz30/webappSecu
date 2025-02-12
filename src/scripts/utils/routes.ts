@@ -1,7 +1,8 @@
 import type { RouteRecordRaw } from "vue-router";
 
 import LoginView from "@/views/LoginView.vue";
-import DashboardView from '@/views/DashboardView.vue';
+import ProfileView from "@/views/ProfileView.vue";
+import AdminView from "@/views/AdminView.vue";
 
 /**
  * Liste des routes du programme
@@ -17,9 +18,14 @@ export const WEB_ROUTES: Record<string, RouteRecordRaw> = {
         name: 'login',
         component: LoginView,
     },
-    DASHBOARD: {
-        path: '/dashboard',
-        name: 'dashboard',
-        component: DashboardView,
+    PROFILE: {
+        path: '/profile',
+        name: 'profile',
+        component: ProfileView,
+    },
+    ADMIN: {
+        path: '/admin',
+        name: 'admin',
+        component: AdminView,
     },
 };

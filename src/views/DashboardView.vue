@@ -10,7 +10,7 @@ import Footer from '@/components/FooterComp.vue';
     </header>
 
     <main class="content">
-      <h1>Dashboard</h1>
+      <slot></slot>
     </main>
 
     <footer>
@@ -18,3 +18,6 @@ import Footer from '@/components/FooterComp.vue';
     </footer>
   </div>
 </template>
+
+<style lang="scss" scoped>
+</style>
