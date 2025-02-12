@@ -4,7 +4,6 @@ import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 
 // Si l'instance est en production / OS
 const PRODUCTION = process.env.VITE_ENVIRONMENT === 'production';
-const WINDOWS = process.platform === 'win32';
 
 export default defineConfigWithVueTs(
     {
@@ -55,7 +54,6 @@ export default defineConfigWithVueTs(
             '@typescript-eslint/no-shadow': ['error'],
 
             // Default
-            'linebreak-style': ['error', (WINDOWS ? 'windows' : 'unix')],
             'no-console': PRODUCTION ? 'warn' : 'off',
             'no-debugger': PRODUCTION ? 'warn' : 'off',
         },
