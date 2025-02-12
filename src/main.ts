@@ -1,13 +1,13 @@
 import { createApp } from 'vue';
 import { createPinia } from 'pinia';
 
-// Autres
+// Externes
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap';
 import 'boxicons/css/boxicons.min.css';
 
-// Custom
-import '@/assets/css/main.css';
+// Personnalisé
+import '@/assets/scss/_global.scss';
 
 import App from './App.vue';
 import router from './router';
