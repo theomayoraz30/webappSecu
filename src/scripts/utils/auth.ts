@@ -19,3 +19,5 @@ export function setToken(token: string) {
     // On mets le token dans les cookies
     setCookie(COOKIE_AUTH_TOKEN_NAME, token);
 }
+
+//export function

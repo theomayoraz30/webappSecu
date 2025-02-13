@@ -21,11 +21,11 @@ interface ApiRoute {
 export const API_ROUTES: Record<string, ApiRoute> = {
     LOGIN: {
         name: 'login',
-        route: '/login',
+        route: '/auth/login',
     },
     LOGOUT: {
         name: 'logout',
-        route: '/logout',
+        route: '/auth/logout',
     },
     USERS: {
         name: 'users',
@@ -36,7 +36,6 @@ export const API_ROUTES: Record<string, ApiRoute> = {
 // Requête par défaut vers l'API
 export const API_REQUEST = axios.create({
     baseURL: API_BASE_URL,
-    withCredentials: true,
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json;charset=UTF-8',

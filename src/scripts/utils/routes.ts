@@ -1,14 +1,17 @@
-import type { RouteRecordRaw } from "vue-router";
+import type { RouteWithChildren } from "@/scripts/types/routes";
 
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
-import ProfileView from "@/views/ProfileView.vue";
-import AdminView from "@/views/AdminView.vue";
+
+import DashboardHomeView from "@/views/dashboard/HomeView.vue";
+import DashboardProfileView from "@/views/dashboard/ProfileView.vue";
+import DashboardUsersView from "@/views/dashboard/UsersView.vue";
+
 
 /**
  * Liste des routes du programme
  */
-export const WEB_ROUTES: Record<string, RouteRecordRaw> = {
+export const WEB_ROUTES: RouteWithChildren = {
     HOME: {
         path: '/',
         name: 'home',
@@ -19,14 +22,25 @@ export const WEB_ROUTES: Record<string, RouteRecordRaw> = {
         name: 'login',
         component: LoginView,
     },
-    PROFILE: {
-        path: '/profile',
-        name: 'profile',
-        component: ProfileView,
-    },
-    ADMIN: {
-        path: '/admin',
-        name: 'admin',
-        component: AdminView,
-    },
+    DASHBOARD: {
+        path: '/dashboard',
+        name: 'dashboard',
+        routes: {
+            HOME: {
+                path: 'home',
+                name: 'dashboard.home',
+                component: DashboardHomeView,
+            },
+            PROFILE: {
+                path: 'profile',
+                name: 'dashboard.profile',
+                component: DashboardProfileView,
+            },
+            ADMIN: {
+                path: 'users',
+                name: 'dashboard.users',
+                component: DashboardUsersView,
+            },
+        }
+    }
 };

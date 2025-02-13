@@ -72,7 +72,7 @@ function login() {
         API_REQUEST.post(API_ROUTES.LOGIN.route, params)
             .then((response) => {
                 // Check si il manque des données
-                const token = response.data?.data?.token ?? null;
+                const token = response.data?.authToken ?? null;
                 if (token == null) return showErrorAlert(MESSAGES_ERROR.API_DEFAULT);
 
                 // Enregistre le token dans les cookies
@@ -85,7 +85,7 @@ function login() {
                 router.push({ path: WEB_ROUTES.HOME.path });
             })
             .catch((error) => {
-                console.log(error.response);
+                console.log(error);
                 // Récupére le message d'erreur sinon on prends celui par défaut
                 const message = error.response?.data?.message || MESSAGES_ERROR.API_DEFAULT;
 
