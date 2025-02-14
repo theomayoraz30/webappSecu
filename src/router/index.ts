@@ -1,23 +1,23 @@
-import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router'
-import { WEB_ROUTES } from '@/scripts/utils/routes'
-import type { RouteWithChildren } from '@/scripts/types/routes';
+import { createRouter, createWebHistory } from 'vue-router';
 
-function transformRoutes(
-    routes: RouteWithChildren,
-): RouteRecordRaw[] {
-    return Object.values(routes).map(route => {
-        if (!route.routes) return route;
+import { useAuthStore } from '@/scripts/stores/authStore';
 
-        return {
-            ...route,
-            children: transformRoutes(route.routes),
-        };
-    });
-}
+import { WEB_ROUTES, WEB_ROUTES_NAMES } from '@/scripts/utils/routes';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.VITE_WEB_URL),
-    routes: transformRoutes(WEB_ROUTES),
+    routes: WEB_ROUTES,
+});
+
+router.beforeEach(async (to, from, next) => {
+    const authStore = useAuthStore();
+
+    if(to.meta.requiresAuth) {
+        await authStore.checkLoginStatus();
+        if(!authStore.isLoggedIn) return next({ name: WEB_ROUTES_NAMES.LOGIN });
+    }
+
+    next();
 });
 
 export default router;

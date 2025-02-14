@@ -1,23 +1,39 @@
 /* IMPORTS */
 
 // --Local--
-import { getCookie, setCookie } from "@/scripts/utils/cookies";
+import { getValue, setValue } from "@/scripts/utils/storage";
 import { COOKIE_AUTH_TOKEN_NAME } from "@/scripts/utils/constants";
+import { API_REQUEST, API_ROUTES } from "./api";
 
 /**
- * On récupére la valeur du bearer token
+ * Récupére la valeur du token dans le storage
  * @returns
  */
-export function getToken(): string | undefined {
-    return getCookie(COOKIE_AUTH_TOKEN_NAME);
+export function getToken(): string | null {
+    return getValue(COOKIE_AUTH_TOKEN_NAME);
 }
 
 /**
- * On change la valeur du bearer token
+ * Change la valeur du token dans le storage
  */
 export function setToken(token: string) {
     // On mets le token dans les cookies
-    setCookie(COOKIE_AUTH_TOKEN_NAME, token);
+    setValue(COOKIE_AUTH_TOKEN_NAME, token);
 }
 
-//export function
+/**
+ * Check si l'utilisateur est authentifié
+ */
+export async function checkAuth(): Promise<boolean> {
+    return new Promise(async (resolve) => {
+        try {
+            const response = await API_REQUEST.get(API_ROUTES.AUTH.ME.path);
+
+            setTimeout(() => {
+                resolve (response.status === 200);
+            }, 1000);
+        } catch {
+            resolve(false);
+        }
+    });
+}

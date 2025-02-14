@@ -1,25 +1,20 @@
 <script lang="ts" setup>
-import Navbar from '@/components/NavbarComp.vue';
-import Footer from '@/components/FooterComp.vue';
-
-
+import DashboardNavbar from '@/components/dashboard/DashboardNavbar.vue';
+import DashboardFooter from '@/components/dashboard/DashboardFooter.vue';
 </script>
 
 <template>
-  <div class="app-container">
+  <div class="d-flex flex-column min-vh-100">
     <header>
-      <Navbar />
+      <DashboardNavbar />
     </header>
 
-    <main class="content">
-      <slot></slot>
+    <main class="col">
+      <router-view />
     </main>
 
     <footer>
-      <Footer></Footer>
+      <DashboardFooter />
     </footer>
   </div>
 </template>
-
-<style lang="scss" scoped>
-</style>

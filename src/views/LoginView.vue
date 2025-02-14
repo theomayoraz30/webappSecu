@@ -1,10 +1,12 @@
 <script lang="ts" setup>
+import { ref } from 'vue';
+
 import router from '@/router';
-import { API_REQUEST, API_ROUTES } from '@/scripts/utils/api'
-import { setToken } from '@/scripts/utils/auth'
+
+import { API_REQUEST, API_ROUTES } from '@/scripts/utils/api';
+import { setToken } from '@/scripts/utils/auth';
 import { MESSAGES_ERROR, MESSAGES_TEXT } from '@/scripts/utils/messages';
-import { WEB_ROUTES } from '@/scripts/utils/routes';
-import { ref } from 'vue'
+import { WEB_ROUTES_NAMES } from '@/scripts/utils/routes';
 
 /**
  * Status du résultat de la requête
@@ -69,7 +71,7 @@ function login() {
     };
 
     function send() {
-        API_REQUEST.post(API_ROUTES.LOGIN.route, params)
+        API_REQUEST.post(API_ROUTES.AUTH.LOGIN.route, params)
             .then((response) => {
                 // Check si il manque des données
                 const token = response.data?.authToken ?? null;
@@ -82,10 +84,9 @@ function login() {
                 showSuccessAlert(MESSAGES_TEXT.SUCCESS_CONNECTED);
 
                 // Redirection vers la page 'home'
-                router.push({ path: WEB_ROUTES.HOME.path });
+                router.push({ name: WEB_ROUTES_NAMES.DASHBOARD.PROFILE });
             })
             .catch((error) => {
-                console.log(error);
                 // Récupére le message d'erreur sinon on prends celui par défaut
                 const message = error.response?.data?.message || MESSAGES_ERROR.API_DEFAULT;
 
