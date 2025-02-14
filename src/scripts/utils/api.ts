@@ -6,6 +6,7 @@ import axios from 'axios';
 // --Locals--
 import { getToken } from '@/scripts/utils/auth';
 import { API_BASE_URL, REQUEST_AUTH_TOKEN_NAME } from '@/scripts/utils/constants';
+import type { ApiUser } from '../interfaces/api';
 
 /**
  * Liste des routes de l'API
@@ -23,6 +24,11 @@ export const API_ROUTES = {
         ME: {
             name: 'auth.me',
             path: '/auth/me',
+
+            PASSWORD: {
+                name: 'auth.me.password',
+                path: '/auth/me/password',
+            }
         }
     },
     USERS: {
@@ -56,3 +62,20 @@ API_REQUEST.interceptors.request.use(
     },
     (error) => Promise.reject(error),
 );
+
+/**
+ * Récupére l'utilisateur actuel
+ */
+export async function getCurrentUser(): Promise<ApiUser | null> {
+    return new Promise((resolve) => {
+        API_REQUEST.get<ApiUser>(API_ROUTES.AUTH.ME.path)
+            .then((response) => {
+                const user = response.data;
+
+                resolve(user);
+            })
+            .catch(() => {
+                resolve(null);
+            });
+    });
+}

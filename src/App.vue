@@ -2,15 +2,27 @@
 import { RouterView } from 'vue-router';
 import { useAuthStore } from '@/scripts/stores/authStore';
 
-import GlobalLoader from '@/components/global/GlobalLoader.vue';
+import BigLoader from '@/components/global/BigLoader.vue';
 
 const authStore = useAuthStore();
 </script>
 
 <template>
-  <!-- Affiche le loader pendant que l'authentification est en cours -->
-  <GlobalLoader v-if="authStore.isLoading" />
+  <div v-if="authStore.isLoading" class="loader">
+    <!-- Affiche le loader pendant que l'authentification est en cours -->
+    <BigLoader />
+  </div>
 
   <!-- Pages de l'application -->
   <router-view v-else />
 </template>
+
+<style lang="scss" scoped>
+.loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+}
+</style>

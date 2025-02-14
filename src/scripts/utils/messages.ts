@@ -3,6 +3,7 @@
  */
 export const MESSAGES_TEXT = {
     SUCCESS_CONNECTED: "Connecté avec succès, vous allez être redirigé",
+    PASSWORD_CHANGED: "Le mot de passe a été changé avec succès",
 };
 
 /**

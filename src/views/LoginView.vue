@@ -8,9 +8,7 @@ import { setToken } from '@/scripts/utils/auth';
 import { MESSAGES_ERROR, MESSAGES_TEXT } from '@/scripts/utils/messages';
 import { WEB_ROUTES_NAMES } from '@/scripts/utils/routes';
 
-/**
- * Status du résultat de la requête
- */
+// Statut du résultat de la requête
 enum RequestStatus {
     DEFAULT = 0,
     SUCCESS = 1,
@@ -27,7 +25,7 @@ const alert = ref({
     message: '',
 });
 
-const waiting = ref(false);
+const isWaiting = ref<boolean>(false);
 
 /**
  * Affiche défaut
@@ -60,16 +58,20 @@ function showErrorAlert(message: string) {
 };
 
 function login() {
-    if (waiting.value) return;
-    waiting.value = true;
+    // Attente
+    if (isWaiting.value) return;
+    isWaiting.value = true;
 
+    // Reset
     showDefaultAlert();
 
+    // Paramètres
     const params = {
         username: form.value.username,
         password: form.value.password,
     };
 
+    // Requête
     function send() {
         API_REQUEST.post(API_ROUTES.AUTH.LOGIN.route, params)
             .then((response) => {
@@ -94,10 +96,11 @@ function login() {
                 showErrorAlert(message);
             })
             .finally(() => {
-                waiting.value = false;
+                isWaiting.value = false;
             });
     }
 
+    // Attente
     setTimeout(send, 1000);
 }
 </script>
@@ -121,7 +124,7 @@ function login() {
             <div class="signin-container">
                 <h2 class="text-left mb-4">Sign in</h2>
 
-                <div>
+                <form @submit.prevent="login">
                     <div class="mb-3 input-group">
                         <span class="input-group-text"><i class="bx bx-user"></i></span>
                         <input type="text" name="username" class="form-control" placeholder="username"
@@ -132,10 +135,10 @@ function login() {
                         <input type="password" name="password" class="form-control" placeholder="password"
                             v-model="form.password" required />
                     </div>
-                    <button @click="login" id="login-btn" class="btn btn-primary w-100 btn-lg" :class="(waiting) ? 'loading' : null">
+                    <button id="login-btn" class="btn btn-primary w-100 btn-lg" :class="(isWaiting) ? 'loading' : null">
                         <span>Connexion</span>
                     </button>
-                </div>
+                </form>
             </div>
 
             <div class="signin-container">

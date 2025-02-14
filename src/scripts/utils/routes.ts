@@ -44,7 +44,7 @@ export const WEB_ROUTES: RouteRecordRaw[] = [
         component: DashboardLayout,
         beforeEnter: async (to, from, next) => {
             const authStore = useAuthStore();
-            await authStore.checkLoginStatus();
+            await authStore.retrieveUser();
 
             if(!authStore.isLoggedIn) return next({ name: WEB_ROUTES_NAMES.LOGIN });
 

@@ -1,28 +1,31 @@
 import { ref } from 'vue';
 import { defineStore } from 'pinia';
 
-import { checkAuth } from '@/scripts/utils/auth';
+import { type ApiUser } from '@/scripts/interfaces/api';
+import { getCurrentUser } from '@/scripts/utils/api';
 
 export const useAuthStore = defineStore('auth', () => {
-    const isLoggedIn = ref(false);
-    const isLoading = ref(false);
+    const isLoading = ref<boolean>(false);
+    const currentUser = ref<ApiUser | null>(null);
 
     // Fonction pour vérifier la connexion
-    const checkLoginStatus = async () => {
+    async function retrieveUser() {
         isLoading.value = true;
-        try {
-            const result = await checkAuth();
-            isLoggedIn.value = result;
-        } catch {
-            isLoggedIn.value = false;
-        } finally {
-            isLoading.value = false;
-        }
+
+        const user: ApiUser | null = await getCurrentUser();
+        currentUser.value = user;
+
+        isLoading.value = false;
+    };
+
+    function isLoggedIn(): boolean {
+        return currentUser.value !== null;
     };
 
     return {
-        isLoggedIn,
         isLoading,
-        checkLoginStatus,
+        currentUser,
+        retrieveUser,
+        isLoggedIn,
     };
 });
