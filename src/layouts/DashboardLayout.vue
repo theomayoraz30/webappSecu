@@ -1,20 +1,16 @@
 <script lang="ts" setup>
 import DashboardNavbar from '@/components/dashboard/DashboardNavbar.vue';
-import DashboardFooter from '@/components/dashboard/DashboardFooter.vue';
 </script>
 
 <template>
-  <div class="d-flex flex-column min-vh-100">
-    <header>
-      <DashboardNavbar />
-    </header>
-
-    <main class="col">
-      <router-view />
-    </main>
-
-    <footer>
-      <DashboardFooter />
-    </footer>
+  <div class="container-fluid">
+    <div class="row flex-nowrap">
+      <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+        <DashboardNavbar />
+      </div>
+      <div class="col py-3">
+        <router-view />
+      </div>
+    </div>
   </div>
 </template>

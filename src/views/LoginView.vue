@@ -83,8 +83,8 @@ function login() {
                 // Affichage le succès
                 showSuccessAlert(MESSAGES_TEXT.SUCCESS_CONNECTED);
 
-                // Redirection vers la page 'home'
-                router.push({ name: WEB_ROUTES_NAMES.DASHBOARD.PROFILE });
+                // Redirection vers la page 'dashboard'
+                router.push({ name: WEB_ROUTES_NAMES.DASHBOARD.HOME });
             })
             .catch((error) => {
                 // Récupére le message d'erreur sinon on prends celui par défaut
@@ -98,7 +98,7 @@ function login() {
             });
     }
 
-    setTimeout(send, 1500);
+    setTimeout(send, 1000);
 }
 </script>
 
@@ -192,6 +192,8 @@ input.form-control {
         background-color: #f1f0ea !important;
         box-shadow: none !important;
         outline: none !important;
+        border: solid 1px #dee2e6 !important;
+        border-left: none !important;
     }
 }
 

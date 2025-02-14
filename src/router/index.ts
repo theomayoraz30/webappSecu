@@ -1,14 +1,13 @@
 import { createRouter, createWebHistory } from 'vue-router';
 
-import { useAuthStore } from '@/scripts/stores/authStore';
-
-import { WEB_ROUTES, WEB_ROUTES_NAMES } from '@/scripts/utils/routes';
+import { WEB_ROUTES } from '@/scripts/utils/routes';
 
 const router = createRouter({
     history: createWebHistory(import.meta.env.VITE_WEB_URL),
     routes: WEB_ROUTES,
 });
 
+/*
 router.beforeEach(async (to, from, next) => {
     const authStore = useAuthStore();
 
@@ -18,6 +17,6 @@ router.beforeEach(async (to, from, next) => {
     }
 
     next();
-});
+});*/
 
 export default router;

@@ -1,5 +1,7 @@
 import type { RouteRecordRaw } from "vue-router";
 
+import { useAuthStore } from '@/scripts/stores/authStore';
+
 import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 
@@ -40,6 +42,14 @@ export const WEB_ROUTES: RouteRecordRaw[] = [
     {
         path: '/dashboard',
         component: DashboardLayout,
+        beforeEnter: async (to, from, next) => {
+            const authStore = useAuthStore();
+            await authStore.checkLoginStatus();
+
+            if(!authStore.isLoggedIn) return next({ name: WEB_ROUTES_NAMES.LOGIN });
+
+            next();
+        },
         meta: {
             requiresAuth: true,
         },
