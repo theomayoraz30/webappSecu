@@ -72,36 +72,25 @@ function login() {
     };
 
     // Requête
-    function send() {
-        API_REQUEST.post(API_ROUTES.AUTH.LOGIN.route, params)
-            .then((response) => {
-                // Check si il manque des données
-                const token = response.data?.authToken ?? null;
-                if (token == null) return showErrorAlert(MESSAGES_ERROR.API_DEFAULT);
+    setTimeout(async () => {
+        try {
+            const response = await API_REQUEST.post(API_ROUTES.AUTH.LOGIN.route, params);
 
-                // Enregistre le token dans les cookies
-                setToken(token);
+            // Essaye de récupérer le token et de l'enregistrer
+            const token = response.data?.authToken;
+            if (!token) return showErrorAlert(MESSAGES_ERROR.API_DEFAULT);
+            setToken(token);
 
-                // Affichage le succès
-                showSuccessAlert(MESSAGES_TEXT.SUCCESS_CONNECTED);
-
-                // Redirection vers la page 'dashboard'
-                router.push({ name: WEB_ROUTES_NAMES.DASHBOARD.HOME });
-            })
-            .catch((error) => {
-                // Récupére le message d'erreur sinon on prends celui par défaut
-                const message = error.response?.data?.message || MESSAGES_ERROR.API_DEFAULT;
-
-                // Affichage de l'erreur
-                showErrorAlert(message);
-            })
-            .finally(() => {
-                isWaiting.value = false;
-            });
-    }
-
-    // Attente
-    setTimeout(send, 1000);
+            // Succès
+            showSuccessAlert(MESSAGES_TEXT.SUCCESS_CONNECTED);
+            router.push({ name: WEB_ROUTES_NAMES.DASHBOARD.HOME });
+        } catch (error: any) {
+            const message = error.response?.data?.message || MESSAGES_ERROR.API_DEFAULT;
+            showErrorAlert(message);
+        } finally {
+            isWaiting.value = false;
+        }
+    }, 1000);
 }
 </script>
 

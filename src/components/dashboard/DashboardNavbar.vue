@@ -6,12 +6,11 @@ import { WEB_ROUTES_NAMES } from '@/scripts/utils/routes';
 import { useAuthStore } from '@/scripts/stores/authStore';
 const authStore = useAuthStore();
 
-function logout() {
-    API_REQUEST.post(API_ROUTES.AUTH.LOGOUT.route)
-        .then(() => {
-            // Redirection vers la page 'login'
-            router.push({ name: WEB_ROUTES_NAMES.LOGIN });
-        });
+async function logout() {
+    try {
+        await API_REQUEST.post(API_ROUTES.AUTH.LOGOUT.route);
+        router.push({ name: WEB_ROUTES_NAMES.LOGIN });
+    } catch {}
 }
 </script>
 
@@ -75,7 +74,7 @@ function logout() {
     border-radius: 8px;
 }
 
-.nav-item > .active {
+.nav-item>.active {
     background-color: transparent !important;
     color: #cf9ef5 !important;
 }

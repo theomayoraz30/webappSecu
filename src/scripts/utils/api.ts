@@ -67,15 +67,10 @@ API_REQUEST.interceptors.request.use(
  * Récupére l'utilisateur actuel
  */
 export async function getCurrentUser(): Promise<ApiUser | null> {
-    return new Promise((resolve) => {
-        API_REQUEST.get<ApiUser>(API_ROUTES.AUTH.ME.path)
-            .then((response) => {
-                const user = response.data;
-
-                resolve(user);
-            })
-            .catch(() => {
-                resolve(null);
-            });
-    });
+    try {
+        const response = await API_REQUEST.get<ApiUser>(API_ROUTES.AUTH.ME.path);
+        return response.data;
+    } catch {
+        return null;
+    }
 }

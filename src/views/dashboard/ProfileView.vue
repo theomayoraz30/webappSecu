@@ -1,9 +1,10 @@
 <script lang="ts" setup>
-import { ref, onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { API_REQUEST, API_ROUTES } from '@/scripts/utils/api';
-
-import BigLoader from '@/components/global/BigLoader.vue';
 import { MESSAGES_ERROR, MESSAGES_TEXT } from '@/scripts/utils/messages';
+import { useAuthStore } from '@/scripts/stores/authStore';
+import { type ApiUser } from '@/scripts/interfaces/api';
+import BigLoader from '@/components/global/BigLoader.vue';
 
 // Statut du résultat de la requête
 enum RequestStatus {
@@ -12,17 +13,12 @@ enum RequestStatus {
     ERROR = 2,
 };
 
-// Typage des données
-interface User {
-    id: number;
-    username: string;
-    role: string;
-}
-
 // Variables réactives
-const user = ref<User | null>(null);
-const isLoading = ref<boolean>(true);
+const user = ref<ApiUser | null | undefined>(undefined);
 const isWaiting = ref<boolean>(false);
+
+// Stores
+const authStore = useAuthStore();
 
 // Form
 const form = ref({
@@ -37,100 +33,58 @@ const alert = ref({
     message: '',
 });
 
-/**
- * Affiche défaut
- */
+
 function showDefaultAlert() {
-    alert.value = {
-        status: RequestStatus.DEFAULT,
-        message: '',
-    };
+    alert.value = { status: RequestStatus.DEFAULT, message: '' };
 };
-
-/**
- * Affiche succès
- */
 function showSuccessAlert(message: string) {
-    alert.value = {
-        status: RequestStatus.SUCCESS,
-        message: message,
-    };
+    alert.value = { status: RequestStatus.SUCCESS, message: message };
 };
-
-/**
- * Affiche erreur
- */
 function showErrorAlert(message: string) {
-    alert.value = {
-        status: RequestStatus.ERROR,
-        message: message,
-    };
-};
-
-// Fonction pour récupérer les utilisateurs
-const fetchUser = async () => {
-    try {
-        const response = await API_REQUEST.get<User>(API_ROUTES.AUTH.ME.path);
-        user.value = response.data;
-    } catch {
-
-    } finally {
-        isLoading.value = false;
-    }
+    alert.value = { status: RequestStatus.ERROR, message: message };
 };
 
 // Fonction pour mettre à jour le mot de passe
-const changePassword = () => {
+const changePassword = async () => {
     // Attente
     if (isWaiting.value) return;
     isWaiting.value = true;
-
-    // Reset
     showDefaultAlert();
 
     // Si les mots de passent ne sont pas les mêmes
     if (form.value.new !== form.value.confirm) {
-        // Animation
         isWaiting.value = false;
-
-        // Message
-        showErrorAlert("Les mots de passe ne correspondent pas.");
-        return;
+        return showErrorAlert("Les mots de passe ne correspondent pas.");
     }
 
-    // Paramètres
-    const params = {
-        oldPassword: form.value.current,
-        newPassword: form.value.new,
-    };
-
-    // Logique d'API pour changer le mot de passe
-    API_REQUEST.post(API_ROUTES.AUTH.ME.PASSWORD.path, params)
-        .then((response) => {
-            // Récupére le message d'erreur sinon on prends celui par défaut
-            const message = response.data.message || MESSAGES_TEXT.PASSWORD_CHANGED;
-
-            // Affichage du succès
-            showSuccessAlert(message);
-        })
-        .catch((error) => {
-            // Récupére le message d'erreur sinon on prends celui par défaut
-            const message = error.response.data.message || MESSAGES_ERROR.API_DEFAULT;
-
-            // Affichage de l'erreur
-            showErrorAlert(message);
-        })
-        .finally(() => {
-            isWaiting.value = false;
+    try {
+        // Change le mot de passe
+        const { data } = await API_REQUEST.post(API_ROUTES.AUTH.ME.PASSWORD.path, {
+            oldPassword: form.value.current,
+            newPassword: form.value.new,
         });
+
+        // Affichage du succès
+        const message = data.message || MESSAGES_TEXT.PASSWORD_CHANGED;
+        showSuccessAlert(message);
+    } catch (error: any) {
+        // Affichage de l'erreur
+        const message = error.response?.data?.message || MESSAGES_ERROR.API_DEFAULT;
+        showErrorAlert(message);
+    } finally {
+        isWaiting.value = false;
+    }
 };
 
-// Appel de la fonction fetchUser lors du montage du composant
-onMounted(() => setTimeout(fetchUser, 250));
+onMounted(() => {
+    setTimeout(async() => {
+        user.value = await authStore.retrieveUser()
+    }, 250);
+});
 </script>
 
 <template>
-    <BigLoader v-if="isLoading" />
+    <BigLoader v-if="user === undefined" />
 
     <div v-else-if="user !== null" class="container mt-5">
         <div class="card">
