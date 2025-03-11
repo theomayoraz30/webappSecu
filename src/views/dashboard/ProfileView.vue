@@ -79,7 +79,7 @@ const changePassword = async () => {
 onMounted(() => {
     setTimeout(async() => {
         user.value = await authStore.retrieveUser()
-    }, 250);
+    }, 500);
 });
 </script>
 

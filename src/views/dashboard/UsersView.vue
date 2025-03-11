@@ -29,7 +29,7 @@ const fetchUsers = async () => {
 };
 
 // Appel de la fonction fetchUsers lors du montage du composant
-onMounted(() => setTimeout(fetchUsers, 250));
+onMounted(() => setTimeout(fetchUsers, 500));
 </script>
 
 <template>
