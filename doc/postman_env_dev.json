@@ -1,0 +1,21 @@
+{
+	"id": "57d7ca69-d5d6-4825-a6cf-06b3b643ac6d",
+	"name": "Development",
+	"values": [
+		{
+			"key": "API_URL",
+			"value": "http://localhost:8000",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "AUTH_TOKEN",
+			"value": "",
+			"type": "secret",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-04-03T12:45:05.469Z",
+	"_postman_exported_using": "Postman/11.39.3"
+}

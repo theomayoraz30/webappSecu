@@ -1,0 +1,21 @@
+{
+	"id": "312cd61e-9539-4d45-a504-b3c60702f7c8",
+	"name": "Production",
+	"values": [
+		{
+			"key": "API_URL",
+			"value": "",
+			"type": "default",
+			"enabled": true
+		},
+		{
+			"key": "AUTH_TOKEN",
+			"value": "",
+			"type": "secret",
+			"enabled": true
+		}
+	],
+	"_postman_variable_scope": "environment",
+	"_postman_exported_at": "2025-04-03T12:45:27.917Z",
+	"_postman_exported_using": "Postman/11.39.3"
+}
