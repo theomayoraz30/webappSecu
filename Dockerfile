@@ -4,7 +4,7 @@ FROM node:22 AS build
 WORKDIR /app
 
 # Copier les fichiers nécessaires pour installer les dépendances
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json .env ./
 
 RUN npm install --frozen-lockfile
 

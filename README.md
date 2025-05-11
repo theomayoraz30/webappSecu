@@ -1,39 +1,36 @@
-# webappSecu
+# Déploiement en production - Application Vue.js avec Docker
 
-This template should help get you started developing with Vue 3 in Vite.
+## Environnement
+Le fichier .env contient des variables d’environnement utilisées pour configurer l’application selon le contexte (développement ou production).
 
-## Recommended IDE Setup
+### Variables
+```VITE_ENVIRONMENT=development```
+Cette variable indique que l’application tourne en mode développement. Cela peut activer certaines fonctionnalités utiles aux développeurs.
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+```VITE_API_URL=http://localhost:8000```
+Il s’agit de l’URL de l’API à laquelle l’application frontend va envoyer ses requêtes. Ici, elle pointe vers un serveur local, ce qui est typique en développement.
 
-## Type Support for `.vue` Imports in TS
+## Docker
+Ce projet utilise Docker pour builder une application Vue.js et la servir avec NGINX.
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+### 1. Construire l'image Docker
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
+```bash
+docker build -t secu-vue .
 ```
 
-### Compile and Hot-Reload for Development
+### 2. Lancer le conteneur
 
-```sh
-npm run dev
+```bash
+docker run -d -p 80:80 --name secu-container secu-vue
 ```
 
-### Type-Check, Compile and Minify for Production
+L'application sera accessible sur `http://localhost`.
 
-```sh
-npm run build
-```
+## Nettoyage
 
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
+```bash
+docker stop secu-container
+docker rm secu-container
+docker rmi secu-vue
 ```

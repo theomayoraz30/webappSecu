@@ -6,7 +6,7 @@ import { WEB_ROUTES_NAMES } from '@/scripts/utils/routes';
 import { useAuthStore } from '@/scripts/stores/authStore';
 
 const router = createRouter({
-    history: createWebHistory(import.meta.env.VITE_WEB_URL),
+    history: createWebHistory(),
     routes: WEB_ROUTES,
 });
 
