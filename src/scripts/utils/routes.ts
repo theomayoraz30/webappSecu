@@ -2,7 +2,6 @@ import type { RouteRecordRaw } from "vue-router";
 
 import { useAuthStore } from '@/scripts/stores/authStore';
 
-import HomeView from "@/views/HomeView.vue";
 import LoginView from "@/views/LoginView.vue";
 
 import DashboardLayout from "@/layouts/DashboardLayout.vue";
@@ -31,8 +30,9 @@ export const WEB_ROUTES_NAMES = {
 export const WEB_ROUTES: RouteRecordRaw[] = [
     {
         path: '/',
-        name: WEB_ROUTES_NAMES.HOME,
-        component: HomeView,
+        redirect: {
+            name: WEB_ROUTES_NAMES.LOGIN,
+        },
     },
     {
         path: '/login',
